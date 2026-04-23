@@ -117,7 +117,7 @@ void GotoStatement::execute(EvalState &state, Program &program) {
  */
 IfStatement::IfStatement(TokenScanner &scanner) {
     // Comparison operators have precedence 1, so we read with prec 2 to stop at operator
-    exp1 = readE(scanner, 2);
+    exp1 = readE(scanner, 1);
     op = scanner.nextToken();
     exp2 = readE(scanner, 1);
     if (!scanner.hasMoreTokens()) {

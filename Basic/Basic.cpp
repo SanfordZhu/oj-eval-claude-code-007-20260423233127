@@ -108,6 +108,14 @@ void processLine(std::string line, Program &program, EvalState &state) {
         TokenScanner lineScanner;
         lineScanner.ignoreWhitespace();
         lineScanner.scanNumbers();
+        // Add comparison operators as multi-character operators
+        lineScanner.addOperator("<");
+        lineScanner.addOperator(">");
+        lineScanner.addOperator("=");
+        lineScanner.addOperator("<=");
+        lineScanner.addOperator(">=");
+        lineScanner.addOperator("<>");
+        lineScanner.addOperator("!=");
         lineScanner.setInput(line);
         // Skip the line number token
         lineScanner.nextToken();
