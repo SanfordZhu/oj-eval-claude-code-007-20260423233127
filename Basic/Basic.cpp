@@ -77,6 +77,14 @@ void processLine(std::string line, Program &program, EvalState &state) {
     TokenScanner scanner;
     scanner.ignoreWhitespace();
     scanner.scanNumbers();
+    // Add comparison operators as multi-character operators to ensure correct tokenization
+    scanner.addOperator("<");
+    scanner.addOperator(">");
+    scanner.addOperator("=");
+    scanner.addOperator("<=");
+    scanner.addOperator(">=");
+    scanner.addOperator("<>");
+    scanner.addOperator("!=");
     scanner.setInput(line);
 
     if (!scanner.hasMoreTokens()) {
