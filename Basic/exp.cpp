@@ -4,6 +4,7 @@
  * This file implements the Expression class and its subclasses.
  */
 
+#include <set>
 #include "exp.hpp"
 
 
@@ -101,12 +102,20 @@ CompoundExp::~CompoundExp() {
  * the assignment operator does not evaluate its left operand.
  */
 
+static bool isKeyword(const std::string& name) {
+    static const std::set<std::string> keywords = {
+        "REM", "LET", "PRINT", "INPUT", "END", "GOTO", "IF", "THEN",
+        "RUN", "LIST", "CLEAR", "QUIT", "HELP"
+    };
+    return keywords.count(name) > 0;
+}
+
 int CompoundExp::eval(EvalState &state) {
     if (op == "=") {
         if (lhs->getType() != IDENTIFIER) {
             error("Illegal variable in assignment");
         }
-        if (lhs->getType() == IDENTIFIER && lhs->toString() == "LET")
+        if (isKeyword(((IdentifierExp *) lhs)->getName()))
             error("SYNTAX ERROR");
         int val = rhs->eval(state);
         state.setValue(((IdentifierExp *) lhs)->getName(), val);
