@@ -139,6 +139,9 @@ void IfStatement::execute(EvalState &state, Program &program) {
     if (op == "=") condition = (val1 == val2);
     else if (op == "<") condition = (val1 < val2);
     else if (op == ">") condition = (val1 > val2);
+    else if (op == "<=") condition = (val1 <= val2);
+    else if (op == ">=") condition = (val1 >= val2);
+    else if (op == "<>" || op == "!=") condition = (val1 != val2);
     else error("SYNTAX ERROR");
 
     if (condition) {

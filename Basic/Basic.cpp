@@ -5,8 +5,10 @@
  */
 
 #include <cctype>
+#include <cstdlib>
 #include <iostream>
 #include <string>
+#include <set>
 #include "exp.hpp"
 #include "parser.hpp"
 #include "program.hpp"
