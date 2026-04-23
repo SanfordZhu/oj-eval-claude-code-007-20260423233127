@@ -9,56 +9,80 @@
  */
 
 #include "program.hpp"
-
+#include <map>
+#include <vector>
+#include <string>
 
 
 Program::Program() = default;
 
-Program::~Program() = default;
+Program::~Program() {
+    clear();
+}
 
 void Program::clear() {
-    // Replace this stub with your own code
-    //todo
+    for (auto& pair : lines) {
+        delete pair.second.statement;
+    }
+    lines.clear();
+    lineNumbers.clear();
 }
 
 void Program::addSourceLine(int lineNumber, const std::string &line) {
-    // Replace this stub with your own code
-    //todo
+    if (lines.count(lineNumber)) {
+        delete lines[lineNumber].statement;
+    }
+    lines[lineNumber] = Line(line);
+    rebuildLineNumbers();
 }
 
 void Program::removeSourceLine(int lineNumber) {
-    // Replace this stub with your own code
-    //todo
+    if (lines.count(lineNumber)) {
+        delete lines[lineNumber].statement;
+        lines.erase(lineNumber);
+        rebuildLineNumbers();
+    }
 }
 
 std::string Program::getSourceLine(int lineNumber) {
-    // Replace this stub with your own code
-    //todo
+    if (lines.count(lineNumber)) {
+        return lines[lineNumber].sourceLine;
+    }
+    return "";
 }
 
 void Program::setParsedStatement(int lineNumber, Statement *stmt) {
-    // Replace this stub with your own code
-    //todo
+    if (!lines.count(lineNumber)) {
+        error("Line " + integerToString(lineNumber) + " does not exist");
+        return;
+    }
+    if (lines[lineNumber].statement != nullptr) {
+        delete lines[lineNumber].statement;
+    }
+    lines[lineNumber].statement = stmt;
 }
 
-//void Program::removeSourceLine(int lineNumber) {
-
 Statement *Program::getParsedStatement(int lineNumber) {
-   // Replace this stub with your own code
-   //todo
+    if (!lines.count(lineNumber)) {
+        return nullptr;
+    }
+    return lines[lineNumber].statement;
 }
 
 int Program::getFirstLineNumber() {
-    // Replace this stub with your own code
-    //todo
+    if (lines.empty()) {
+        return -1;
+    }
+    return lineNumbers[0];
 }
 
 int Program::getNextLineNumber(int lineNumber) {
-    // Replace this stub with your own code
-    //todo
+    for (size_t i = 0; i <lineNumbers.size(); i++) {
+        if (lineNumbers[i] == lineNumber && i + 1 < lineNumbers.size()) {
+            return lineNumbers[i+1];
+        }
+    }
+    return -1;
 }
-
-//more func to add
-//todo
 
 

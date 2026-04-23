@@ -145,8 +145,22 @@ public:
 
 private:
 
-    // Fill this in with whatever types and instance variables you need
-    //todo
+    struct Line {
+        std::string sourceLine;
+        Statement *statement;
+        Line() : sourceLine(""), statement(nullptr) {}
+        Line(const std::string& line) : sourceLine(line), statement(nullptr) {}
+    };
+
+    std::map<int, Line> lines;
+    std::vector<int> lineNumbers;
+
+    void rebuildLineNumbers() {
+        lineNumbers.clear();
+        for (auto& pair : lines) {
+            lineNumbers.push_back(pair.first);
+        }
+    }
 };
 
 #endif

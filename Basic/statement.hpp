@@ -85,4 +85,101 @@ public:
  * specify its own destructor method to free that memory.
  */
 
+/*
+ * Class: RemStatement
+ * -------------------
+ * Represents a REM comment statement (does nothing).
+ */
+class RemStatement : public Statement {
+public:
+    RemStatement(TokenScanner &scanner);
+    virtual ~RemStatement() override;
+    virtual void execute(EvalState &state, Program &program) override;
+};
+
+/*
+ * Class: LetStatement
+ * -------------------
+ * Represents a LET assignment statement.
+ */
+class LetStatement : public Statement {
+public:
+    LetStatement(TokenScanner &scanner);
+    virtual ~LetStatement() override;
+    virtual void execute(EvalState &state, Program &program) override;
+private:
+    Expression *exp;
+};
+
+/*
+ * Class: PrintStatement
+ * ---------------------
+ * Represents a PRINT statement that evaluates and prints an expression.
+ */
+class PrintStatement : public Statement {
+public:
+    PrintStatement(TokenScanner &scanner);
+    virtual ~PrintStatement() override;
+    virtual void execute(EvalState &state, Program &program) override;
+private:
+    Expression *exp;
+};
+
+/*
+ * Class: InputStatement
+ * ----------------------
+ * Represents an INPUT statement that reads a value into a variable.
+ */
+class InputStatement : public Statement {
+public:
+    InputStatement(TokenScanner &scanner);
+    virtual ~InputStatement() override;
+    virtual void execute(EvalState &state, Program &program) override;
+private:
+    std::string varName;
+};
+
+/*
+ * Class: EndStatement
+ * --------------------
+ * Represents an END statement that terminates program execution.
+ */
+class EndStatement : public Statement {
+public:
+    EndStatement(TokenScanner &scanner);
+    virtual ~EndStatement() override;
+    virtual void execute(EvalState &state, Program &program) override;
+};
+
+/*
+ * Class: GotoStatement
+ * ---------------------
+ * Represents a GOTO statement that jumps to a specific line number.
+ */
+class GotoStatement : public Statement {
+public:
+    GotoStatement(TokenScanner &scanner);
+    virtual ~GotoStatement() override;
+    virtual void execute(EvalState &state, Program &program) override;
+private:
+    int targetLine;
+};
+
+/*
+ * Class: IfStatement
+ * ------------------
+ * Represents an IF-THEN conditional branch statement.
+ */
+class IfStatement : public Statement {
+public:
+    IfStatement(TokenScanner &scanner);
+    virtual ~IfStatement() override;
+    virtual void execute(EvalState &state, Program &program) override;
+private:
+    Expression *exp1;
+    std::string op;
+    Expression *exp2;
+    int targetLine;
+};
+
 #endif

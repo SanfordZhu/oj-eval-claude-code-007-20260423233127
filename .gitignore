@@ -1,0 +1,12 @@
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+code
+score
+Basic-Demo-64bit
+*.o
+*.a
+*.so
+*.dSYM/
+*.log
