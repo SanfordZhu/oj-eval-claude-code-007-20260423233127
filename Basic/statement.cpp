@@ -68,6 +68,9 @@ void PrintStatement::execute(EvalState &state, Program &program) {
  * Implementation of InputStatement
  */
 InputStatement::InputStatement(TokenScanner &scanner) {
+    // According to spec: "10 INPUT 10" is valid, second 10 is variable name
+    // Even though token scanner classifies numeric strings as NUMBER tokens,
+    // we accept it as variable name for INPUT
     varName = scanner.nextToken();
 }
 
@@ -113,7 +116,8 @@ void GotoStatement::execute(EvalState &state, Program &program) {
  * Implementation of IfStatement
  */
 IfStatement::IfStatement(TokenScanner &scanner) {
-    exp1 = readE(scanner, 1);
+    // Comparison operators have precedence 1, so we read with prec 2 to stop at operator
+    exp1 = readE(scanner, 2);
     op = scanner.nextToken();
     exp2 = readE(scanner, 1);
     if (!scanner.hasMoreTokens()) {
